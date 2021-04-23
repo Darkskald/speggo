@@ -2,6 +2,7 @@ package sqlite
 
 import (
 	"database/sql"
+	"errors"
 	"fmt"
 	_ "github.com/mattn/go-sqlite3"
 	"log"
@@ -44,12 +45,18 @@ func (svc *SfgService) GetSfgById(id string) (domain.SFG, error) {
 	if err != nil {
 		return domain.SFG{}, err
 	}
-	test, err := ScanSfg(rows)[0].ToSFG()
+
+	test := ScanSfg(rows)
+	if len(test) != 1 {
+		return domain.SFG{}, errors.New("Wrong number of rows returned upon ID request.")
+	}
+
+	out, err := test[0].ToSFG()
 
 	if err != nil {
 		return domain.SFG{}, err
 	}
-	return test, nil
+	return out, nil
 }
 
 func (svc *SfgService) ListSfgSpectra() ([]domain.SFG, error) {

@@ -7,6 +7,7 @@
     - date of measurement
   
 - POST, DELETE and UPDATE for the endpoints
+- error handling (as **middleware**)
     
   
 # Next step
