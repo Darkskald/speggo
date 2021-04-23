@@ -5,9 +5,10 @@
     - type
     - surfactant, sensitizer, photolysis
     - date of measurement
+  
+- POST, DELETE and UPDATE for the endpoints
     
-
-
+  
 # Next step
 
 - implement functionality for UV/Vis

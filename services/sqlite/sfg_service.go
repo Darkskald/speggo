@@ -37,7 +37,7 @@ func ScanSfg(rows *sql.Rows) []RawSFG {
 	return out
 }
 
-func (svc SfgService) GetSfgById(id string) (domain.SFG, error) {
+func (svc *SfgService) GetSfgById(id string) (domain.SFG, error) {
 	query := fmt.Sprintf("%s WHERE id='%s'", svc.baseQuery, id)
 	log.Print(query)
 	rows, err := svc.db.Query(query)
@@ -52,7 +52,7 @@ func (svc SfgService) GetSfgById(id string) (domain.SFG, error) {
 	return test, nil
 }
 
-func (svc SfgService) ListSfgSpectra() ([]domain.SFG, error) {
+func (svc *SfgService) ListSfgSpectra() ([]domain.SFG, error) {
 	rows, err := svc.db.Query(svc.baseQuery + " LIMIT 500")
 	if err != nil {
 		log.Println(err)
