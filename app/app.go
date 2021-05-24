@@ -50,5 +50,11 @@ func (a App) ListSfgHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, spectra)
 }
 
+func (a App) IndexHandler(c *gin.Context) {
+	msg := "<h1>Welcome to speggo dev version </h1>"
+	c.Writer.Header().Set("Content-Type", "html")
+	c.String(http.StatusOK, msg)
+}
+
 // todo: check if query param is empty string
 // todo implement dispatcher for different query parameters
