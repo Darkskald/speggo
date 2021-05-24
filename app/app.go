@@ -14,10 +14,17 @@ type App struct {
 }
 
 func NewApp(ssv ports.SfgPort) App {
-	return App{
+
+	app := App{
 		R:          gin.Default(),
 		SfgService: ssv,
 	}
+
+	// load HTML templates and static files
+	app.R.Static("./assets", "templates/assets")
+	app.R.LoadHTMLGlob("templates/*.html")
+
+	return app
 }
 
 func (a App) GetSfgByNameHandler(c *gin.Context) {
@@ -51,9 +58,17 @@ func (a App) ListSfgHandler(c *gin.Context) {
 }
 
 func (a App) IndexHandler(c *gin.Context) {
-	msg := "<h1>Welcome to speggo dev version </h1>"
-	c.Writer.Header().Set("Content-Type", "html")
-	c.String(http.StatusOK, msg)
+	c.HTML(
+		// Set the HTTP status to 200 (OK)
+		http.StatusOK,
+		// Use the index.html template
+		"index.html",
+		// Pass the data that the page uses (in this case, 'title')
+		gin.H{
+			"title": "Home Page",
+		},
+	)
+
 }
 
 // todo: check if query param is empty string

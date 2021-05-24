@@ -1,0 +1,19 @@
+<!--header.html-->
+
+<!doctype html>
+<html>
+
+<head>
+    <!--Use the `title` variable to set the title of the page-->
+    <title>{{ .title }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/assets/css/cust_styles.css">
+</head>
+
+<body>
+    <h1>Welcome to Speggo</h1>
+
+    {{ template "footer.html" .}}
+    <script src="/assets/js/custom_scripts.js"></script>
+
