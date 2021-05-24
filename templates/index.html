@@ -9,11 +9,63 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/assets/css/cust_styles.css">
+    <link href='https://fonts.googleapis.com/css?family=Cinzel' rel='stylesheet'>
+    <!-- Load an icon library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 
 <body>
-    <h1>Welcome to Speggo</h1>
+
+<div class="grid-container">
+    <div class="menu-icon">
+        <i class="fas fa-bars header__menu"></i>
+    </div>
+
+    {{ template "header.html" .}}
+
+
+    {{ template "sidebar.html" .}}
+
+    <main class="main">
+        <div class="main-header">
+            <div class="main-header__heading">Hello User</div>
+            <!-- The form -->
+            <form class="example"  onsubmit="searchHandler" id="searchForm">
+                <input type="text" placeholder="Search spectrum" id="searchField">
+                <button type="submit" id="searchbtn"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+
+        <div class="main-overview">
+            <div class="overviewcard">
+                <div class="overviewcard__icon">Overview</div>
+                <div class="overviewcard__info">Card</div>
+            </div>
+            <div class="overviewcard">
+                <div class="overviewcard__icon">Overview</div>
+                <div class="overviewcard__info">Card</div>
+            </div>
+            <div class="overviewcard">
+                <div class="overviewcard__icon">Overview</div>
+                <div class="overviewcard__info">Card</div>
+            </div>
+        </div>
+
+        <div class="main-cards">
+            <div class="card"><span>Example SFG</span> <div id="tester" style="width:750px;height:375px;"></div></div>
+            <!-- <div class="card"> -->
+            {{ template "sfg_table.html" .}}
+            <!-- </div> -->
+        </div>
+    </main>
 
     {{ template "footer.html" .}}
-    <script src="/assets/js/custom_scripts.js"></script>
 
+
+</div>
+
+
+</body>
+<script src="/assets/js/custom_scripts.js"></script>
+</html>
