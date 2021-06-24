@@ -1,8 +1,8 @@
 body {
     margin: 0;
     padding: 0;
-    color: #fff;
-    font-family: 'Open Sans', Helvetica, sans-serif;
+    color: ghostwhite;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     box-sizing: border-box;
 }
 
@@ -36,10 +36,12 @@ body {
 .header {
     grid-area: header;
     display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
     align-items: center;
-    justify-content: space-between;
-    padding: 0 16px;
-    background-color: #465158;
+    justify-content: start;
+    background-color: #1a202c;
+    color: #f3f3f3;
 }
 
 /* Make room for the menu icon on mobile */
@@ -48,11 +50,10 @@ body {
 }
 
 .header .label{
-    text-align: center;
+    /*text-align: center;
     padding: 20%;
-    font-size: 2.5em;
+    font-size: 1.25em;*/
     text-transform: uppercase;
-    font-family: "Copperplate";
 }
 
 .sidenav {
@@ -86,12 +87,10 @@ body {
 
 .sidenav__list {
     padding: 0;
-    margin-top: 85px;
     list-style-type: none;
 }
 
 .sidenav__list-item {
-    padding: 20px 20px 20px 40px;
     color: #ddd;
 }
 
@@ -106,7 +105,7 @@ body {
 
 .main {
     grid-area: main;
-    background-color: #e3e4e6;
+    background-color: #191919;
 }
 
 .main-header {
@@ -166,7 +165,7 @@ body {
     align-items: center;
     justify-content: space-between;
     padding: 0 16px;
-    background-color: #465158;
+    background-color: #1a202c;
 }
 
 /* Style the search field */
@@ -250,19 +249,16 @@ form.example::after {
 }*/
 
 
-
-
-
 /* Non-mobile styles, 750px breakpoint */
 @media only screen and (min-width: 46.875em) {
-    /* Show the sidenav */
+    /* Show the sidenav
     .grid-container {
         grid-template-columns: 240px 1fr;
         grid-template-areas:
       "sidenav header"
       "sidenav main"
       "sidenav footer";
-    }
+    }*/
 
     .header__search {
         margin-left: 0;
