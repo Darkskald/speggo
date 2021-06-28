@@ -6,5 +6,6 @@ import "speggo/domain"
 
 type SfgPort interface {
 	GetSfgById(id string) (domain.SFG, error)
-	ListSfgSpectra() ([]domain.SFG, error)
+	ListSfgSpectra(filter string) ([]domain.SFG, error)
+	FuzzySearch(filter string) ([]string, error)
 }

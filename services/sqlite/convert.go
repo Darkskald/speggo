@@ -2,6 +2,7 @@ package sqlite
 
 import (
 	"log"
+	"math"
 	"strconv"
 	"strings"
 	"time"
@@ -16,7 +17,7 @@ func NumbersFromText(s string) []float64 {
 		if err != nil {
 			log.Println(err)
 		} else {
-			out = append(out, s) // 3.14159265
+			out = append(out, convertInvalid(s)) // 3.14159265
 		}
 	}
 	return out
@@ -30,4 +31,19 @@ func ParseMeasuredTime(s string) time.Time {
 		log.Println(err)
 	}
 	return t
+}
+
+func convertInvalid(f float64) float64 {
+	var out float64
+	switch {
+	case math.IsInf(f, 1):
+		out = 0
+	case math.IsInf(f, -1):
+		out = 0
+	case math.IsNaN(f):
+		out = 0
+	default:
+		out = f
+	}
+	return out
 }

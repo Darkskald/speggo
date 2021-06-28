@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"speggo/app/models"
+	"speggo/domain"
 	"speggo/ports"
 )
 
@@ -53,9 +54,16 @@ func (a App) GetSfgByNameHandler(c *gin.Context) {
 }
 
 func (a App) ListSfgHandler(c *gin.Context) {
-	spectra, err := a.SfgService.ListSfgSpectra()
+
 	// test := c.Request.URL.Query()
 	// log.Println(test)
+	var filter domain.SfgFilter
+	if c.ShouldBindQuery(&filter) == nil {
+		log.Println("====== Only Bind By Query String ======")
+		log.Println(filter.From)
+		log.Println(filter.GetQuery())
+	}
+	spectra, err := a.SfgService.ListSfgSpectra(filter.GetQuery())
 
 	if err != nil {
 		log.Println(err)
@@ -79,6 +87,21 @@ func (a App) IndexHandler(c *gin.Context) {
 			"title": "Home Page",
 		},
 	)
+
+}
+
+func (a App) SearchHandler(c *gin.Context) {
+	filter := c.Param("filter")
+	spectra, err := a.SfgService.FuzzySearch(filter)
+	if err != nil {
+		log.Println(err)
+		c.JSON(http.StatusInternalServerError, models.JsonError{
+			Code:    http.StatusInternalServerError,
+			Message: "Pech für dich, da lief was schief!",
+		})
+	}
+	log.Println(spectra)
+	c.JSON(http.StatusOK, spectra)
 
 }
 

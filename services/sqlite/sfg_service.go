@@ -59,8 +59,8 @@ func (svc *SfgService) GetSfgById(id string) (domain.SFG, error) {
 	return out, nil
 }
 
-func (svc *SfgService) ListSfgSpectra() ([]domain.SFG, error) {
-	rows, err := svc.db.Query(svc.baseQuery + " LIMIT 500")
+func (svc *SfgService) ListSfgSpectra(filter string) ([]domain.SFG, error) {
+	rows, err := svc.db.Query(svc.baseQuery + " " + filter + " LIMIT 500")
 	if err != nil {
 		log.Println(err)
 		return []domain.SFG{}, err
@@ -78,4 +78,27 @@ func (svc *SfgService) ListSfgSpectra() ([]domain.SFG, error) {
 
 	}
 	return out, nil
+}
+
+func (svc *SfgService) FuzzySearch(filter string) ([]string, error) {
+	query := fmt.Sprintf("SELECT name FROM SFG WHERE LOWER(name) LIKE '%s%s%s'", "%", filter, "%")
+	log.Println(query)
+	rows, err := svc.db.Query(query)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+
+	result := make([]string, 0)
+
+	for rows.Next() {
+		var name string
+		err = rows.Scan(&name)
+		if err != nil {
+			log.Fatal(err)
+			return nil, err
+		}
+		result = append(result, name)
+	}
+	return result, nil
 }
