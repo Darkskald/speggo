@@ -20,11 +20,22 @@ func NewApp(ssv ports.SfgPort) App {
 		SfgService: ssv,
 	}
 
+	app.R.Use(CORSMiddleware())
+
 	// load HTML templates and static files
 	app.R.Static("./assets", "templates/assets")
 	app.R.LoadHTMLGlob("templates/*.html")
 
 	return app
+}
+func CORSMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+
+		c.Header("Access-Control-Allow-Origin", "*")
+		c.Header("Access-Control-Allow-Headers", "*")
+
+		c.Next()
+	}
 }
 
 func (a App) GetSfgByNameHandler(c *gin.Context) {
