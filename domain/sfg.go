@@ -26,3 +26,8 @@ func (sf SfgFilter) GetQuery() string {
 	}
 	return fmt.Sprintf("WHERE type='%s'", sf.Type)
 }
+
+type MinimalSfg struct {
+	Id   int    `json:"id"`
+	Name string `json:"name"`
+}

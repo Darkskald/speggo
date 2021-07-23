@@ -45,7 +45,7 @@ func (a App) GetSfgByNameHandler(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, models.JsonError{
 			Code:    http.StatusInternalServerError,
-			Message: "Pech für dich, da lief was schief!",
+			Message: err.Error(),
 		})
 	} else {
 		c.JSON(http.StatusOK, spec)
@@ -74,6 +74,15 @@ func (a App) ListSfgHandler(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, spectra)
+}
+
+func (a App) PostSfgHandler(c *gin.Context){
+	var sfg domain.SFG
+	err := c.ShouldBindJSON(&sfg)
+	if err != nil {
+		log.Println(err.Error())
+	}
+	log.Println(sfg)
 }
 
 func (a App) IndexHandler(c *gin.Context) {

@@ -59,6 +59,28 @@ func (svc *SfgService) GetSfgById(id string) (domain.SFG, error) {
 	return out, nil
 }
 
+func (svc *SfgService) GetSfgByName(name string) (domain.SFG, error) {
+	query := fmt.Sprintf("%s WHERE name='%s'", svc.baseQuery, name)
+	log.Print(query)
+	rows, err := svc.db.Query(query)
+
+	if err != nil {
+		return domain.SFG{}, err
+	}
+
+	test := ScanSfg(rows)
+	if len(test) != 1 {
+		return domain.SFG{}, errors.New("Wrong number of rows returned upon ID request.")
+	}
+
+	out, err := test[0].ToSFG()
+
+	if err != nil {
+		return domain.SFG{}, err
+	}
+	return out, nil
+}
+
 func (svc *SfgService) ListSfgSpectra(filter string) ([]domain.SFG, error) {
 	rows, err := svc.db.Query(svc.baseQuery + " " + filter + " LIMIT 500")
 	if err != nil {
@@ -80,8 +102,8 @@ func (svc *SfgService) ListSfgSpectra(filter string) ([]domain.SFG, error) {
 	return out, nil
 }
 
-func (svc *SfgService) FuzzySearch(filter string) ([]string, error) {
-	query := fmt.Sprintf("SELECT name FROM SFG WHERE LOWER(name) LIKE '%s%s%s'", "%", filter, "%")
+func (svc *SfgService) FuzzySearch(filter string) ([]domain.MinimalSfg, error) {
+	query := fmt.Sprintf("SELECT id,name FROM SFG WHERE LOWER(name) LIKE '%s%s%s'", "%", filter, "%")
 	log.Println(query)
 	rows, err := svc.db.Query(query)
 	if err != nil {
@@ -89,16 +111,16 @@ func (svc *SfgService) FuzzySearch(filter string) ([]string, error) {
 		return nil, err
 	}
 
-	result := make([]string, 0)
+	result := make([]domain.MinimalSfg, 0)
 
 	for rows.Next() {
-		var name string
-		err = rows.Scan(&name)
+		temp := domain.MinimalSfg{}
+		err = rows.Scan(&temp.Id, &temp.Name)
 		if err != nil {
 			log.Fatal(err)
 			return nil, err
 		}
-		result = append(result, name)
+		result = append(result, temp)
 	}
 	return result, nil
 }
